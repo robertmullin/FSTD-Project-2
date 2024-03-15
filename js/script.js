@@ -3,15 +3,11 @@ Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
 */
 
-
-
 /*
 For assistance:
    Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
    Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
 */
-
-
 
 /*
 Create the `showPage` function
@@ -103,15 +99,17 @@ function searchBar(data) {
       <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
     </label>
   `;
+
   // select the header element and insert the search field
   const header = document.querySelector('.header');
   header.insertAdjacentHTML('beforeend', searchField);
+
   // grab the elements needed for input and the event listener and store them in variables 
   const searchInput = document.getElementById('search');
   const searchButton = document.querySelector('.student-search button');
 
   // grab the value of the search field
-  searchInput.addEventListener('input', function() {
+  searchInput.addEventListener('keyup', function() {
     const searchTerm = searchInput.value.trim().toLowerCase();
     // filter the data
     // NOTE: there is probably a more efficient way to do this but for the scope of this project this is okay
@@ -121,6 +119,18 @@ function searchBar(data) {
       const fullNameToLowercase = fullName.toLowerCase();
       return fullNameToLowercase.includes(searchTerm);
     });
+
+    // display a message for no student found
+    if (filteredList.length > 0) {
+      addPagination(filteredList);
+      showPage(filteredList, 1);
+    } else {
+      const studentList = document.querySelector('.student-list');
+      studentList.innerHTML = '<p style="font-size: 32px; color: #4a5568;">No results found.</p>';
+      const linkList = document.querySelector('.link-list');
+      linkList.innerHTML = '';
+    }
+
     // display the students with the modified data
     addPagination(filteredList);
     showPage(filteredList, 1);
